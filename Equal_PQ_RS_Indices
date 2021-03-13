@@ -1,0 +1,42 @@
+class Solution {
+    public List<int> equal(List<int> A) {
+        var lenA = A.Count();
+        var elementIndicesDictionary = new Dictionary<int, List<int>>();
+        var output = new List<int>(){Int32.MaxValue, Int32.MaxValue, Int32.MaxValue, Int32.MaxValue};
+        for(int i=0; i<lenA-1; i++){
+            for(int j=i+1;j<lenA; j++){
+                var sum = A[i]+A[j];
+                if(elementIndicesDictionary.ContainsKey(sum))
+                {
+                    int indexP=-1, indexQ=-1;
+                    var tempList = elementIndicesDictionary[sum];
+                    indexP = tempList[0];
+                    indexQ = tempList[1];
+                    //Console.WriteLine("indexP:"+indexP+"::indexQ:"+indexQ+"::       i:"+i+"::   j:"+j);
+                    //Console.WriteLine("output[0]:"+output[0]+"::output[1]:"+output[1]+"::output[2]:"+output[2]+"::output[3]:"+output[3]);
+                    //Console.WriteLine(output[0]>indexP || output[1]>indexQ || output[2] > i || output[3]>j);
+                    if(i!=indexP && j!=indexP && j!=indexQ && i!=indexQ){
+                        if(output[0]>indexP || (output[0]==indexP && output[1]>indexQ) || (output[0]==indexP && output[1]==indexQ && output[2] > i) || (output[0]==indexP && output[1]==indexQ && output[2]==i && output[3]>j))
+                        {
+                            output[0]=indexP;
+                            output[1]=indexQ;
+                            output[2]=i;
+                            output[3]=j;
+                        }
+                    }
+                }
+                else{
+                    var tmpList = new List<int>();
+                    tmpList.Add(i);
+                    tmpList.Add(j);
+                    elementIndicesDictionary.Add(sum, tmpList);
+                }
+            }
+        }
+        if(output[0]==Int32.MaxValue||output[2]==Int32.MaxValue )
+        {
+            return new List<int>();
+        }
+        return output;
+    }
+}
