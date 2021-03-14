@@ -1,0 +1,44 @@
+class Solution {
+    public List<int> solve(List<int> A, int B) {
+        //foreach(int i in A){Console.WriteLine(" "+i);}
+        var output=new List<int>(){};
+        var lenA=A.Count();
+        int sum=0;
+        int l=0;
+        int startIndex=-1, endIndex=-1;
+        for(int i=0; i<lenA; i++){
+            sum+=A[i];
+            if(sum==B){
+                startIndex=l;
+                endIndex=i;
+                //Console.WriteLine("indices-here:i::"+i+"--l::"+l);
+                goto eligible;
+            }
+            else if(sum>B){
+                while(sum>B && l<=i){
+                    sum-=A[l];
+                    l++;
+                    if(sum==B){
+                        //Console.WriteLine("indices-second:i::"+i+"--l::"+l);
+                        startIndex=l;
+                        endIndex=i;
+                        goto eligible;
+                    }
+                }
+            }
+        }
+        eligible:  
+          //Console.WriteLine("final-EndIndex:::"+endIndex+"-StartIndex-l::"+startIndex);
+          if(startIndex==-1){
+              output.Add(-1);
+          }
+          else
+          {
+              for(int k=startIndex; k<=endIndex; k++){
+                  output.Add(A[k]);
+              }
+          }
+          
+        return output;
+    }
+}
